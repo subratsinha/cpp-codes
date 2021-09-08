@@ -1,3 +1,5 @@
+/* a simple program in c++ to implement the concept of class in c++ */
+
 #include<iostream>
 using namespace std;
 class student
