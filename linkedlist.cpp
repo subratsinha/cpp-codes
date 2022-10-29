@@ -124,6 +124,138 @@ void insertatpos(node* &head,int pos,int data)
 
 
 
+//reverse linkedlist using iterator method
+
+node* reverse(node* &head)
+{
+    node* prevptr=NULL;
+    node* currptr=head;
+    node* nextptr;
+    
+    while(currptr!=NULL)
+    {
+        nextptr=currptr->next;
+        currptr->next=prevptr;
+        
+        prevptr=currptr;
+        currptr=nextptr;
+    }
+    
+    return prevptr;
+}
+
+//reverse linkedlist using recursion
+
+node* reverseRecursive(node* &head)
+{
+    if(head==NULL || head->next==NULL)
+    {
+        return head;
+    }
+    
+    node* newhead=reverseRecursive(head->next);
+    
+    head->next->next=head;
+    head->next=NULL;
+    
+    return newhead;
+}
+
+
+//reverse K nodes of a linkedlist
+
+node* reversek(node* &head, int k)
+{
+    node* prevptr=NULL;
+    node* currptr=head;
+    node* nextptr;
+    
+    int count=0;
+    while(currptr!=NULL && count<k)
+    {
+        nextptr=currptr->next;
+        currptr->next=prevptr;
+        prevptr=currptr;
+        currptr=nextptr;
+        count++;
+    }
+    
+    if (nextptr!=NULL)
+    {
+        head->next=reversek(nextptr,k);
+    }
+    
+    return prevptr;
+}
+
+
+//making cycle in linkedlist
+
+void makecycle(node* & head, int pos)
+{
+    node* temp=head;
+    node* startnode;
+    
+    int count=1;
+    while(temp->next!=NULL)
+    {
+        if(count==pos)
+        {
+            startnode=temp;
+        }
+        temp=temp->next;
+        count++;
+    }
+    temp->next=startnode;
+}
+
+
+bool detectcycle(node* &head)
+{
+    node* fast=head;
+    node* slow=head;
+    
+    while(fast!=NULL && fast->next!=NULL)
+    {
+        slow=slow->next;
+        fast=fast->next->next;
+        
+        if(fast==slow)
+        {
+            cout<<"cycle detected";
+            return true;
+        }
+    }
+    
+    cout<<"no cycle detected";
+    
+    return false;
+}
+
+
+void removecycle(node* &head)
+{
+    node* fast=head;
+    node* slow=head;
+    
+    do{
+        fast=fast->next->next;
+        slow=slow->next;
+    }
+    while(fast!=slow);
+    
+    
+    fast=head;
+    while(slow->next!=fast->next)
+    {
+        fast=fast->next;
+        slow=slow->next;
+    }
+    slow->next=NULL;
+}
+
+
+
 int main()
 {
     node* head=NULL;
@@ -131,29 +263,40 @@ int main()
     insertattail(head,20);
     insertattail(head,30);
     insertattail(head,40);
+    insertattail(head,50);
+    insertattail(head,60);
+    insertattail(head,70);
+    insertattail(head,80);
     
+    
+    makecycle(head,3);
+    cout<<detectcycle(head);
+    removecycle(head);
+    cout<<detectcycle(head);
     
     display(head);
     
-    insertathead(head,50);
-    display(head);
+    // node* newhead=reversek(head,2);
+    // display(newhead);
     
-    //search(head,60);
+    // insertathead(head,50);
+    // display(head);
     
-    deletion(head,30);
-    display(head);
+    // //search(head,60);
     
-    deleteathead(head);
-    display(head);
+    // deletion(head,30);
+    // display(head);
+    
+    // deleteathead(head);
+    // display(head);
     
     
-    insertatpos(head,1,25);
-    display(head);
+    // insertatpos(head,1,25);
+    // display(head);
     
     
     return 0;
 }
-
 
 
 
